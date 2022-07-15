@@ -1,1 +1,1 @@
-Trying to make a programming language
+A programing language (WIP)
