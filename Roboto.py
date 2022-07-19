@@ -1,4 +1,6 @@
+##################
 # COLORS
+##################
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -9,7 +11,9 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+##################
 #ERRORS
+##################
 class Error:
     def __init__(self, pos_start, pos_end, error_name, details):
         self.pos_start = pos_start
@@ -22,12 +26,14 @@ class Error:
         return result
 class IllegalCharError:
     def __init__(self, pos_start, pos_end, details):
-        super().__init__("File:" + str(pos_start) + " Line:" + str(pos_end) + 'Illegal Character Error', str(details))
+        super().__init__(f"File: {pos_start} + {pos_end} Illegal Character Error, {details}")
+##################
 # CONSTATS
-
+##################
 DIGITS = '0123456789'
-
+##################
 # POSISION
+##################
 class POSITION:
     def __init__(self, idx, ln, col, fn, ftxt):
         self.idx = idx
@@ -45,7 +51,9 @@ class POSITION:
         return self
     def copy(self):
         return POSITION(self.idx, self.ln, self.col, self.fn, self.ftxt)
+##################
 # TOKENS
+##################
 TT_INT = 'TT_INT'
 TT_FLOAT = 'TT_FLOAT'
 TT_PLUS = 'TT_PLUS'
@@ -61,8 +69,9 @@ class Token:
     def __repr__(self):
         if self.value: return f'{self.type}:{self.value}'
         return f'{self.type}'
-
+##################
 # Lexer
+##################
 class Lexer:
     def __init__(self, fn, text):
         self.fn = fn 
@@ -104,7 +113,7 @@ class Lexer:
 
                 char = self.current_char
                 self.advance()
-                return [], IllegalCharError(str(pos_start), str(self.pos), '"'+ str(char) +'"')
+                return [], IllegalCharError(pos_start, self.pos, char)
         return tokens, None
     def make_number(self):
         num_str = ''
@@ -122,8 +131,9 @@ class Lexer:
             return Token(TT_INT, int(num_str))
         else:
             return Token(TT_FLOAT, float(num_str))
-
+##################
 # RUN
+##################
 def run(fn, text):
     lexer = Lexer(fn, text)
     tokens, error = lexer.make_tokens()
