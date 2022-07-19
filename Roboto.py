@@ -34,14 +34,16 @@ DIGITS = '0123456789'
 ##################
 # POSISION
 ##################
+#create a class for positions
 class POSITION:
+    #Initialize the position
     def __init__(self, idx, ln, col, fn, ftxt):
         self.idx = idx
         self.ln = ln
         self.col = col
         self.fn = fn
         self.ftxt = ftxt
-
+    #Advanced POSITION
     def advance(self, current_char):
         self.idx += 1
         self.col += 1
@@ -49,11 +51,13 @@ class POSITION:
             self.ln += 1
             self.col += 1
         return self
+    #copy POSITION
     def copy(self):
         return POSITION(self.idx, self.ln, self.col, self.fn, self.ftxt)
 ##################
 # TOKENS
 ##################
+#type of tokens
 TT_INT = 'TT_INT'
 TT_FLOAT = 'TT_FLOAT'
 TT_PLUS = 'TT_PLUS'
@@ -62,29 +66,36 @@ TT_MUL = 'TT_MUL'
 TT_DIV = 'TT_DIV'
 TT_LPAREN = 'TT_LPAREN'
 TT_RPAREN = 'TT_RPAREN'
+#create a class for Tokens
 class Token:
+    #Initialize the token
     def __init__(self, type_, value=None):
         self.type = type_
         self.value = value
+    #copy Token
     def __repr__(self):
         if self.value: return f'{self.type}:{self.value}'
         return f'{self.type}'
 ##################
 # Lexer
 ##################
+#create a class for Lexer
 class Lexer:
+    #Initialize the Lexer
     def __init__(self, fn, text):
         self.fn = fn 
         self.text = text
         self.pos = POSITION(-1, 0, -1, fn, text)
         self.current_char = None
         self.advance()
+    #advance the Lexer
     def advance(self):
         self.pos.advance(self.current_char)
         self.current_char = self.text[self.pos.idx] if self.pos.idx < len(self.text) else None
+    #create tokens
     def make_tokens(self):
         tokens = []
-
+        #check what the current character is
         while self.current_char is not None:
             if self.current_char in ' \t':
                 self.advance()
@@ -109,31 +120,40 @@ class Lexer:
                 tokens.append(Token(TT_RPAREN))
                 self.advance()
             else:
+                #throw an error if the character is not recognized
                 pos_start = self.pos.copy()
 
                 char = self.current_char
                 self.advance()
                 return [], IllegalCharError(pos_start, self.pos, char)
         return tokens, None
+    #Make the number
     def make_number(self):
+        #make the variables
         num_str = ''
         dot_count = 0
+        #check if the current character is a digit
         while self.current_char is not None and self.current_char in DIGITS + '.':
             if self.current_char == '.':
+                #check if there is more than one dot, if so, close the program
                 if dot_count == 1: break
                 dot_count += 1
                 num_str += '.'
             else:
+                #add the digit to the string
                 num_str += self.current_char
             self.advance()
-        
+        #check if the number is a float
         if dot_count == 0:
+            #else, return the number as an int
             return Token(TT_INT, int(num_str))
         else:
+            #if so, return the float
             return Token(TT_FLOAT, float(num_str))
 ##################
 # RUN
 ##################
+#run the program
 def run(fn, text):
     lexer = Lexer(fn, text)
     tokens, error = lexer.make_tokens()
