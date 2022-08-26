@@ -24,9 +24,9 @@ class Error:
         result = f'{self.error_name}: {self.details}'
         result += f'\n File: {self.pos_start.fn}, line: {self.pos_start.ln + 1}'
         return result
-class IllegalCharError:
-    def __init__(self, pos_start, pos_end, details):
-        super().__init__(f"File: {pos_start} + {pos_end} Illegal Character Error, {details}")
+class IllegalCharError(Error):
+    def __init__(self, pos_start, pos_end, error_name, details):
+        super().__init__(pos_start, pos_end, error_name, details)
 ##################
 # CONSTATS
 ##################
@@ -122,10 +122,11 @@ class Lexer:
             else:
                 #throw an error if the character is not recognized
                 pos_start = self.pos.copy()
+                print(pos_start)
 
                 char = self.current_char
                 self.advance()
-                return [], IllegalCharError(pos_start, self.pos, char)
+                return [], IllegalCharError(pos_start, self.pos, "Illegal syntax", char)
         return tokens, None
     #Make the number
     def make_number(self):
