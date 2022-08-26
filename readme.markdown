@@ -19,5 +19,10 @@ It's a Subcatagory, and it sould be a smaller section of code.
 ### Things That Need To Be Done
 - Fix Errors
 ### Stuff That I would like to be added
+- Print
+     * Example: `print(10)`, `print("Hello, Robot")`, `print(10 + 10)`, `print(var)`
+- Variables assign
+     * name = "robot", age = 12, pi = 3.14, isTrue = True
+- Conditional statement simple if/else
 - Functions
 - Packages
