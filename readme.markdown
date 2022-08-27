@@ -17,8 +17,10 @@ It's a Subcatagory, and it sould be a smaller section of code.
 
 ### Things That Need To Be Done
 - Fix Errors
+
 ### Stuff That I would like to be added
 - Functions
 - Packages
+
 ###Know bugs
 - It dosn't handle errors
