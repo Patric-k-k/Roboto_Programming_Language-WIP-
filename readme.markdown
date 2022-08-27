@@ -22,5 +22,5 @@ It's a Subcatagory, and it sould be a smaller section of code.
 - Functions
 - Packages
 
-###Know bugs
+### Know bugs
 - It dosn't handle errors
