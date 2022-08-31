@@ -14,10 +14,10 @@ It's a Catagory, And if it looks like:
 It's a Subcatagory, and it sould be a smaller section of code.
 ### Features
 - Basic Math
-- It Crashing Every Time You Get an Error (It is supposed to just handle the error)
 
 ### Things That Need To Be Done
 - Fix Errors
+
 ### Stuff That I would like to be added
 - Print
      * Example: `print(10)`, `print("Hello, Robot")`, `print(10 + 10)`, `print(var)`
@@ -26,3 +26,6 @@ It's a Subcatagory, and it sould be a smaller section of code.
 - Conditional statement simple if/else
 - Functions
 - Packages
+
+### Know bugs
+- It dosn't handle errors
