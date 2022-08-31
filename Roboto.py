@@ -1,6 +1,9 @@
 ##################
 # COLORS
 ##################
+from ast import expr
+
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -66,6 +69,7 @@ TT_MUL = 'TT_MUL'
 TT_DIV = 'TT_DIV'
 TT_LPAREN = 'TT_LPAREN'
 TT_RPAREN = 'TT_RPAREN'
+TT_EQ = 'TT_EQ'
 #create a class for Tokens
 class Token:
     #Initialize the token
@@ -102,23 +106,23 @@ class Lexer:
             elif self.current_char in DIGITS:
                 tokens.append(self.make_number())
             elif self.current_char == '+':
-                tokens.append(Token(TT_PLUS))
+                tokens.append(Token(TT_PLUS, value='+'))                
                 self.advance()
             elif self.current_char == '*':
-                tokens.append(Token(TT_MUL))
+                tokens.append(Token(TT_MUL, value='*'))
                 self.advance()
             elif self.current_char == '-':
-                tokens.append(Token(TT_MINUS))
+                tokens.append(Token(TT_MINUS, value='-'))
                 self.advance()
             elif self.current_char == '/':
-                tokens.append(Token(TT_DIV))
+                tokens.append(Token(TT_DIV, value='/'))
                 self.advance()
             elif self.current_char == '(':
-                tokens.append(Token(TT_LPAREN))
+                tokens.append(Token(TT_LPAREN, value='('))
                 self.advance()
             elif self.current_char == ')':
-                tokens.append(Token(TT_RPAREN))
-                self.advance()
+                tokens.append(Token(TT_RPAREN, value=')'))
+                self.advance()                            
             else:
                 #throw an error if the character is not recognized
                 pos_start = self.pos.copy()
@@ -151,11 +155,32 @@ class Lexer:
         else:
             #if so, return the float
             return Token(TT_FLOAT, float(num_str))
+
+class Parser():
+    tok_vals = {'TT_PLUS': '+', 'TT_MINUS': '-', 'TT_MUL': '*', 'TT_DIV': '/', 'TT_LPAREN': '(', 'TT_RPAREN': ')', 'TT_EQ': '='}
+    tok_keys = ['TT_PLUS', 'TT_MINUS', 'TT_MUL', 'TT_DIV', 'TT_LPAREN', 'TT_RPAREN', 'TT_EQ']
+
+    def __init__(self, tokens):
+        self.tokens = tokens
+    
+    def basic_math(self):
+        # Expression
+        expr = ""
+
+        # Append tokens to expresion
+        for tok in self.tokens:
+            expr += str(tok.value)
+        
+        # Evaluating the mathematical expression
+        expr_eval = eval(expr)
+        print(expr_eval)
+        return expr_eval
+
+
 ##################
 # RUN
 ##################
 #run the program
 def run(fn, text):
     lexer = Lexer(fn, text)
-    tokens, error = lexer.make_tokens()
     return tokens, error
