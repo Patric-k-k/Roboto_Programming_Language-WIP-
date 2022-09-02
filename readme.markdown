@@ -26,6 +26,3 @@ It's a Subcatagory, and it sould be a smaller section of code.
 - Conditional statement simple if/else
 - Functions
 - Packages
-
-### Know bugs
-- It dosn't handle errors
